@@ -188,6 +188,10 @@ CORS is configured to allow requests from `http://localhost:5173` (React dev ser
 
 Supported image formats: PNG, JPG, JPEG, GIF, WEBP
 Maximum file size: 16MB
+hosted image link
+```bash
+https://images.prismic.io/sharetribe/d0939fa7-3c69-4007-84fc-be592884f071_Hero+-+Hosted+cloud+insfrastructure.png
+```
 
 ## Error Handling
 
