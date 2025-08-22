@@ -1,0 +1,12 @@
+[Unit]
+Description=Flask Blog App
+After=network.target
+
+[Service]
+User=ubuntu
+WorkingDirectory=/home/ubuntu/d2d-s4ds/flask-be
+ExecStart=/home/ubuntu/d2d-s4ds/flask-be/venv/bin/gunicorn --bind 127.0.0.1:5000 app:app
+Restart=always
+
+[Install]
+WantedBy=multi-user.target

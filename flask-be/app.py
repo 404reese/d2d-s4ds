@@ -109,6 +109,11 @@ def send_newsletter_email(to_email, subject, content):
 
 # Routes
 
+@app.route('/health')
+def health_check():
+    """Health check endpoint"""
+    return jsonify({'status': 'healthy', 'timestamp': datetime.utcnow().isoformat()})
+
 @app.route('/api/posts', methods=['GET'])
 def get_posts():
     """Get all posts"""
