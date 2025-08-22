@@ -1,21 +1,6 @@
-# Personal Portfolio Website
+# Official Portfolio of VP S4DS KJSIT
 
 A clean, minimal, and modern personal portfolio website built with React, TypeScript, and Tailwind CSS.
-
-## Features
-
-- **Clean & Modern Design**: Whitespace-rich layout with excellent typography and visual hierarchy
-- **Fully Responsive**: Optimized for all devices from mobile to desktop
-- **Smooth Navigation**: Sticky header with smooth scrolling between sections
-- **Interactive Contact Form**: Form validation with console logging (ready for backend integration)
-- **Easy Customization**: Well-structured components with placeholder data
-- **Performance Optimized**: Built with Vite for fast development and production builds
-
-## Sections
-
-- **About**: Introduction, skills, and professional background
-- **Projects**: Showcase of selected work with descriptions and links
-- **Contact**: Contact form and social media links
 
 ## Getting Started
 
@@ -28,8 +13,8 @@ A clean, minimal, and modern personal portfolio website built with React, TypeSc
 
 1. Clone the repository:
 ```bash
-git clone <your-repo-url>
-cd portfolio-website
+git clone https://github.com/404reese/d2d-s4ds.git
+cd react-fe
 ```
 
 2. Install dependencies:
@@ -51,7 +36,7 @@ npm run dev
 Update the following files with your information:
 
 1. **Header Component** (`src/components/Header.tsx`):
-   - Change "John Doe" to your name
+   - Change "Hari" to your name
 
 2. **About Section** (`src/components/About.tsx`):
    - Update name, title, and description
@@ -157,18 +142,3 @@ npm run deploy
 - **Vite** - Build tool and dev server
 - **Tailwind CSS** - Utility-first CSS framework
 - **ESLint** - Code linting
-
-## Browser Support
-
-- Chrome (latest)
-- Firefox (latest)
-- Safari (latest)
-- Edge (latest)
-
-## License
-
-This project is open source and available under the [MIT License](LICENSE).
-
----
-
-Feel free to customize this portfolio to match your personal brand and showcase your unique skills and projects!
