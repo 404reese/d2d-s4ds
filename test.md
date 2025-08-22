@@ -1,0 +1,1 @@
+https://images.prismic.io/sharetribe/d0939fa7-3c69-4007-84fc-be592884f071_Hero+-+Hosted+cloud+insfrastructure.png

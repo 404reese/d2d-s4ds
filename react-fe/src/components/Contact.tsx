@@ -1,27 +1,41 @@
 import React, { useState } from 'react';
+import { newsletterAPI } from '../services/api';
 
 const Contact: React.FC = () => {
   const [formData, setFormData] = useState({
     email: '',
     subscribed: false
   });
+  const [loading, setLoading] = useState(false);
+  const [message, setMessage] = useState<{ type: 'success' | 'error', text: string } | null>(null);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    // Log newsletter signup to console
-    console.log('Newsletter signup:', { email: formData.email, timestamp: new Date().toISOString() });
-    
-    // Reset form
-    setFormData({ email: '', subscribed: true });
-    
-    // Show success message
-    alert('Successfully subscribed to newsletter! Check the console to see the signup data.');
-    
-    // Reset subscribed status after 2 seconds
-    setTimeout(() => {
-      setFormData(prev => ({ ...prev, subscribed: false }));
-    }, 2000);
+    if (!formData.email.trim()) {
+      setMessage({ type: 'error', text: 'Please enter a valid email address.' });
+      return;
+    }
+
+    setLoading(true);
+    setMessage(null);
+
+    try {
+      const response = await newsletterAPI.signup(formData.email);
+      setMessage({ type: 'success', text: response.message || 'Successfully subscribed to newsletter!' });
+      setFormData({ email: '', subscribed: true });
+      
+      // Reset subscribed status after 3 seconds
+      setTimeout(() => {
+        setFormData(prev => ({ ...prev, subscribed: false }));
+        setMessage(null);
+      }, 3000);
+    } catch (error: any) {
+      const errorMessage = error.response?.data?.error || 'Failed to subscribe. Please try again.';
+      setMessage({ type: 'error', text: errorMessage });
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -98,6 +112,16 @@ const Contact: React.FC = () => {
               </p>
               
               <form onSubmit={handleSubmit} className="space-y-4">
+                {message && (
+                  <div className={`p-3 rounded-lg text-sm ${
+                    message.type === 'success' 
+                      ? 'bg-green-100 text-green-800 border border-green-200' 
+                      : 'bg-red-100 text-red-800 border border-red-200'
+                  }`}>
+                    {message.text}
+                  </div>
+                )}
+                
                 <div>
                   <label htmlFor="email" className="block text-sm font-medium text-blue-800 mb-2">
                     Email Address
@@ -109,21 +133,33 @@ const Contact: React.FC = () => {
                     value={formData.email}
                     onChange={handleChange}
                     required
-                    className="w-full px-4 py-3 border border-blue-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all duration-300 hover:border-blue-300 bg-white"
+                    disabled={loading}
+                    className="w-full px-4 py-3 border border-blue-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all duration-300 hover:border-blue-300 bg-white disabled:bg-gray-50 disabled:cursor-not-allowed"
                     placeholder="your.email@example.com"
                   />
                 </div>
 
                 <button
                   type="submit"
-                  disabled={formData.subscribed}
-                  className={`w-full py-3 px-6 rounded-lg font-medium transition-all duration-300 transform hover:scale-105 hover:shadow-lg ${
+                  disabled={formData.subscribed || loading}
+                  className={`w-full py-3 px-6 rounded-lg font-medium transition-all duration-300 transform hover:scale-105 hover:shadow-lg flex items-center justify-center ${
                     formData.subscribed 
                       ? 'bg-green-600 text-white cursor-not-allowed' 
+                      : loading
+                      ? 'bg-gray-400 text-white cursor-not-allowed'
                       : 'bg-blue-600 text-white hover:bg-blue-700'
                   }`}
                 >
-                  {formData.subscribed ? '✓ Subscribed!' : 'Subscribe to Newsletter'}
+                  {loading ? (
+                    <>
+                      <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
+                      Subscribing...
+                    </>
+                  ) : formData.subscribed ? (
+                    '✓ Subscribed!'
+                  ) : (
+                    'Subscribe to Newsletter'
+                  )}
                 </button>
               </form>
               
