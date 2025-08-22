@@ -1,0 +1,6 @@
+# No external dependencies needed - using only Python standard library and AWS SDK (boto3)
+# boto3 is automatically available in AWS Lambda runtime
+
+# If you need additional packages, uncomment and add them:
+# requests==2.31.0
+# python-dotenv==1.0.0
