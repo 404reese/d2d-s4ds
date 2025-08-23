@@ -91,7 +91,12 @@ def send_newsletter_email(to_email, subject, content):
         smtp_server = os.getenv('SMTP_SERVER')
         smtp_port = int(os.getenv('SMTP_PORT', 587))
         sender_email = os.getenv('SENDER_EMAIL')
-        sender_password = os.getenv('SENDER_PASSWORD')
+        sender_password = os.getenv('SENDER_EMAIL_PASSWORD')  # Fixed: use correct env variable name
+
+        # Check if all required email config is present
+        if not all([smtp_server, sender_email, sender_password]):
+            print(f"Error: Missing email configuration")
+            return False
 
         msg = MIMEMultipart()
         msg['From'] = sender_email
@@ -105,9 +110,11 @@ def send_newsletter_email(to_email, subject, content):
         server.login(sender_email, sender_password)
         server.sendmail(sender_email, to_email, msg.as_string())
         server.quit()
+        print(f"Email sent successfully to {to_email}")
         return True
     except Exception as e:
         print(f"Error sending email to {to_email}: {str(e)}")
+        return False  # Fixed: return False on exception
         return False
 
 # Routes
@@ -240,7 +247,7 @@ def send_newsletter():
             failed_count += 1
     
     return jsonify({
-        'message': f'Newsletter sent successfully',
+        'message': f'Newsletter sent to {success_count} out of {len(subscribers)} subscribers',
         'success_count': success_count,
         'failed_count': failed_count,
         'total_subscribers': len(subscribers)
