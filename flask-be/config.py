@@ -10,6 +10,10 @@ class Config:
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     MAX_CONTENT_LENGTH = 16 * 1024 * 1024  # 16MB
     
+    # URLs
+    FRONTEND_URL = os.getenv('FRONTEND_URL', 'http://localhost:5173')
+    BACKEND_URL = os.getenv('BACKEND_URL', 'http://localhost:5000')
+    
     # Admin
     ADMIN_TOKEN = os.getenv('ADMIN_TOKEN')
     

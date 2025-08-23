@@ -25,7 +25,10 @@ app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024  # 16MB max file size
 
 # Initialize extensions
 db = SQLAlchemy(app)
-CORS(app, origins=['http://localhost:5173'])
+
+# CORS Configuration - get frontend URL from environment
+FRONTEND_URL = os.getenv('FRONTEND_URL', 'http://localhost:5173')
+CORS(app, origins=[FRONTEND_URL])
 
 # AWS S3 Configuration
 s3_client = boto3.client(
@@ -109,10 +112,6 @@ def send_newsletter_email(to_email, subject, content):
 
 # Routes
 
-@app.route('/health')
-def health_check():
-    """Health check endpoint"""
-    return jsonify({'status': 'healthy', 'timestamp': datetime.utcnow().isoformat()})
 
 @app.route('/api/posts', methods=['GET'])
 def get_posts():
@@ -263,8 +262,22 @@ def unsubscribe(subscriber_id):
 
 @app.route('/api/health', methods=['GET'])
 def health_check():
-    """Health check endpoint"""
-    return jsonify({'status': 'healthy', 'timestamp': datetime.utcnow().isoformat()})
+    """Health check endpoint with configuration status"""
+    config_status = {
+        'frontend_url_configured': bool(os.getenv('FRONTEND_URL')),
+        'backend_url_configured': bool(os.getenv('BACKEND_URL')),
+        's3_configured': bool(os.getenv('S3_BUCKET_NAME')),
+        'email_configured': bool(os.getenv('SENDER_EMAIL')),
+        'admin_token_configured': bool(os.getenv('ADMIN_TOKEN')),
+        'environment': os.getenv('FLASK_ENV', 'development')
+    }
+    
+    return jsonify({
+        'status': 'healthy', 
+        'timestamp': datetime.utcnow().isoformat(),
+        'frontend_url': os.getenv('FRONTEND_URL', 'not configured'),
+        'config_status': config_status
+    })
 
 # Error handlers
 @app.errorhandler(404)

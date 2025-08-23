@@ -1,0 +1,26 @@
+version: 1
+frontend:
+  phases:
+    preBuild:
+      commands:
+        - echo "Installing dependencies..."
+        - npm ci
+        - echo "Environment variables check..."
+        - echo "VITE_API_URL is set to:" $VITE_API_URL
+        - echo "VITE_ADMIN_TOKEN is configured:" $(if [ -n "$VITE_ADMIN_TOKEN" ]; then echo "Yes"; else echo "No"; fi)
+    build:
+      commands:
+        - echo "Building React application..."
+        - npm run build
+    postBuild:
+      commands:
+        - echo "Build completed successfully!"
+        - echo "Checking build output..."
+        - ls -la dist/
+  artifacts:
+    baseDirectory: dist
+    files:
+      - '**/*'
+  cache:
+    paths:
+      - node_modules/**/*

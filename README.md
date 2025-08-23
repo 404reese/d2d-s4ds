@@ -302,6 +302,38 @@ The frontend implements comprehensive error handling:
 - **Boto3** - AWS SDK
 - **Python-dotenv** - Environment variables
 
+## 🌐 AWS Deployment
+
+This application is configured for easy deployment on AWS:
+
+### Quick Deployment
+For a quick deployment guide, see: **[QUICK-SETUP.md](QUICK-SETUP.md)**
+
+### Detailed Deployment 
+For comprehensive deployment instructions, see: **[AWS-DEPLOYMENT.md](AWS-DEPLOYMENT.md)**
+
+### Architecture
+- **Frontend**: AWS Amplify (React app)
+- **Backend**: EC2 instance (Flask app)
+- **Storage**: S3 bucket (image uploads)
+- **Database**: SQLite (or RDS for production)
+- **Email**: SMTP service (Gmail/SES)
+- **Optional**: Lambda functions (contact form)
+
+### Environment Variables
+The application uses environment variables to avoid hardcoded URLs:
+
+**Backend** (`flask-be/.env`):
+- `FRONTEND_URL` - Amplify app URL
+- `BACKEND_URL` - EC2 instance URL
+- `SECRET_KEY`, `ADMIN_TOKEN` - Security keys
+- AWS S3 and email configuration
+
+**Frontend** (Amplify environment variables):
+- `VITE_API_URL` - EC2 backend URL
+- `VITE_ADMIN_TOKEN` - Admin authentication
+- `VITE_CONTACT_LAMBDA_URL` - Lambda function URL
+
 ## 🤝 Contributing
 
 1. Fork the repository
@@ -341,10 +373,16 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
    - Check database URL format
    - Ensure write permissions in database directory
 
+6. **Deployment Issues**:
+   - Check environment variables are correctly set
+   - Verify EC2 security groups allow port 5000
+   - Test health endpoint: `curl http://your-ec2-ip:5000/api/health`
+   - Use configuration check script: `node react-fe/check-config.js`
+
 ### Support
 
 For issues and questions:
 1. Check the troubleshooting section above
-2. Review environment variable configuration
+2. Review environment variable configuration in deployment guides
 3. Check console logs for detailed error messages
 4. Open an issue in the repository with error details
