@@ -24,7 +24,7 @@ const About: React.FC = () => {
           <div className="flex items-center justify-center gap-4 mb-8 animate-pulse-hover">
   <h1 className="text-5xl md:text-7xl lg:text-8xl font-light text-gray-900 leading-tight">
     Hello, I'm{' '}
-    <span className="font-normal text-blue-600 ml-2">Hari !</span>
+    <span className="font-normal text-blue-600 ml-2">Pranav !</span>
   </h1>
   <img 
     src="/icon.png" 
