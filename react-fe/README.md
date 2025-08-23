@@ -36,7 +36,7 @@ npm run dev
 Update the following files with your information:
 
 1. **Header Component** (`src/components/Header.tsx`):
-   - Change "Hari" to your name
+   - Change "Name" to your name
 
 2. **About Section** (`src/components/About.tsx`):
    - Update name, title, and description

@@ -11,8 +11,8 @@ const About: React.FC = () => {
             <div className="w-40 h-40 md:w-64 md:h-64 mx-auto rounded-full bg-gradient-to-br from-blue-100 to-blue-200 border-4 border-blue-300 flex items-center justify-center overflow-hidden shadow-lg hover:shadow-xl transition-all duration-500 transform hover:scale-105">
               {/* Option 1: Use an image */}
               <img 
-                src="/image.jpg" 
-                alt="John Doe" 
+                src="https://s4ds.kjsieit.in/images/rid.png" 
+                alt="rid img" 
                 className="w-full h-full object-cover"
               />
               
@@ -24,13 +24,13 @@ const About: React.FC = () => {
           <div className="flex items-center justify-center gap-4 mb-8 animate-pulse-hover">
   <h1 className="text-5xl md:text-7xl lg:text-8xl font-light text-gray-900 leading-tight">
     Hello, I'm{' '}
-    <span className="font-normal text-blue-600 ml-2">Pranav !</span>
+    <span className="font-normal text-blue-600 ml-2">Riddhesh !</span>
   </h1>
-  <img 
+  {/* <img 
     src="/icon.png" 
     alt="Icon" 
     className="h-[4em] md:h-[3em] lg:h-[6em] w-auto"
-  />
+  /> */}
 </div>
 
           <p className="text-xl md:text-3xl lg:text-4xl text-gray-600 font-light leading-relaxed opacity-0 animate-fade-in-up stagger-2 max-w-4xl mx-auto">

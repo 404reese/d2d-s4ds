@@ -252,32 +252,32 @@ const Contact: React.FC = () => {
               <div>
                 <h4 className="font-medium text-blue-800 mb-2">Email</h4>
                 <a 
-                  href="mailto:john.doe@email.com" 
+                  href="mailto:riddhesh.chaudhary@gmail.com" 
                   className="text-gray-600 hover:text-blue-600 transition-all duration-300 transform hover:scale-105 inline-block"
                 >
-                  john.doe@email.com
+                  riddhesh.chaudhary@gmail.com
                 </a>
               </div>
               <div>
                 <h4 className="font-medium text-blue-800 mb-2">LinkedIn</h4>
                 <a 
-                  href="https://linkedin.com/in/johndoe" 
+                  href="https://linkedin.com/in/riddheshchaudhary" 
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-gray-600 hover:text-blue-600 transition-all duration-300 transform hover:scale-105 inline-block"
                 >
-                  linkedin.com/in/johndoe
+                  linkedin.com/in/yourname
                 </a>
               </div>
               <div>
                 <h4 className="font-medium text-blue-800 mb-2">GitHub</h4>
                 <a 
-                  href="https://github.com/johndoe" 
+                  href="https://github.com/404reese" 
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-gray-600 hover:text-blue-600 transition-all duration-300 transform hover:scale-105 inline-block"
                 >
-                  github.com/johndoe
+                  github.com/404reese
                 </a>
               </div>
             </div>
@@ -354,7 +354,7 @@ const Contact: React.FC = () => {
                 Prefer direct contact?
               </p>
               <a
-                href="mailto:john.doe@email.com"
+                href="mailto:riddhesh.chaudhary@gmail.com"
                 className="inline-flex items-center px-6 py-3 border-2 border-blue-600 text-blue-600 rounded-lg hover:bg-blue-600 hover:text-white transition-all duration-300 font-medium transform hover:scale-105"
               >
                 Send me an email
