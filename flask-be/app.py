@@ -10,6 +10,7 @@ from dotenv import load_dotenv
 import smtplib
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
+from functools import wraps
 
 # Load environment variables
 load_dotenv()
@@ -107,6 +108,11 @@ def send_newsletter_email(to_email, subject, content):
         return False
 
 # Routes
+
+@app.route('/health')
+def health_check():
+    """Health check endpoint"""
+    return jsonify({'status': 'healthy', 'timestamp': datetime.utcnow().isoformat()})
 
 @app.route('/api/posts', methods=['GET'])
 def get_posts():

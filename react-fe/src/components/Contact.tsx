@@ -6,8 +6,19 @@ const Contact: React.FC = () => {
     email: '',
     subscribed: false
   });
+  
+  // Contact form state
+  const [contactForm, setContactForm] = useState({
+    name: '',
+    email: '',
+    subject: '',
+    message: ''
+  });
+  
   const [loading, setLoading] = useState(false);
+  const [contactLoading, setContactLoading] = useState(false);
   const [message, setMessage] = useState<{ type: 'success' | 'error', text: string } | null>(null);
+  const [contactMessage, setContactMessage] = useState<{ type: 'success' | 'error', text: string } | null>(null);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -30,8 +41,8 @@ const Contact: React.FC = () => {
         setFormData(prev => ({ ...prev, subscribed: false }));
         setMessage(null);
       }, 3000);
-    } catch (error: any) {
-      const errorMessage = error.response?.data?.error || 'Failed to subscribe. Please try again.';
+    } catch (error: unknown) {
+      const errorMessage = (error as { response?: { data?: { error?: string } } })?.response?.data?.error || 'Failed to subscribe. Please try again.';
       setMessage({ type: 'error', text: errorMessage });
     } finally {
       setLoading(false);
@@ -40,6 +51,58 @@ const Contact: React.FC = () => {
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData(prev => ({
+      ...prev,
+      [e.target.name]: e.target.value
+    }));
+  };
+
+  // Contact form handlers
+  const handleContactSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    if (!contactForm.name.trim() || !contactForm.email.trim() || !contactForm.message.trim()) {
+      setContactMessage({ type: 'error', text: 'Please fill in all required fields.' });
+      return;
+    }
+
+    setContactLoading(true);
+    setContactMessage(null);
+
+    try {
+      // Replace with your actual Lambda function URL
+      const LAMBDA_ENDPOINT = import.meta.env.VITE_CONTACT_LAMBDA_URL || 'https://your-api-gateway-url.amazonaws.com/contact';
+      
+      const response = await fetch(LAMBDA_ENDPOINT, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(contactForm)
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        setContactMessage({ type: 'success', text: data.message || 'Thank you! Your message has been sent successfully.' });
+        setContactForm({ name: '', email: '', subject: '', message: '' });
+        
+        // Clear success message after 5 seconds
+        setTimeout(() => {
+          setContactMessage(null);
+        }, 5000);
+      } else {
+        setContactMessage({ type: 'error', text: data.error || 'Failed to send message. Please try again.' });
+      }
+    } catch (error: unknown) {
+      console.error('Contact form error:', error);
+      setContactMessage({ type: 'error', text: 'Failed to send message. Please check your connection and try again.' });
+    } finally {
+      setContactLoading(false);
+    }
+  };
+
+  const handleContactChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    setContactForm(prev => ({
       ...prev,
       [e.target.name]: e.target.value
     }));
@@ -58,6 +121,124 @@ const Contact: React.FC = () => {
         </div>
 
         <div className="grid md:grid-cols-2 gap-16">
+          {/* Contact Form */}
+          <div className="opacity-0 animate-slide-in-left stagger-2">
+            <h3 className="text-xl font-medium text-blue-800 mb-6">
+              Send me a Message
+            </h3>
+            
+            <form onSubmit={handleContactSubmit} className="space-y-4">
+              {contactMessage && (
+                <div className={`p-3 rounded-lg text-sm ${
+                  contactMessage.type === 'success' 
+                    ? 'bg-green-100 text-green-800 border border-green-200' 
+                    : 'bg-red-100 text-red-800 border border-red-200'
+                }`}>
+                  {contactMessage.text}
+                </div>
+              )}
+              
+              <div className="grid md:grid-cols-2 gap-4">
+                <div>
+                  <label htmlFor="name" className="block text-sm font-medium text-blue-800 mb-2">
+                    Name *
+                  </label>
+                  <input
+                    type="text"
+                    id="name"
+                    name="name"
+                    value={contactForm.name}
+                    onChange={handleContactChange}
+                    required
+                    disabled={contactLoading}
+                    className="w-full px-4 py-3 border border-blue-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all duration-300 hover:border-blue-300 bg-white disabled:bg-gray-50 disabled:cursor-not-allowed"
+                    placeholder="Your name"
+                  />
+                </div>
+                
+                <div>
+                  <label htmlFor="contact-email" className="block text-sm font-medium text-blue-800 mb-2">
+                    Email *
+                  </label>
+                  <input
+                    type="email"
+                    id="contact-email"
+                    name="email"
+                    value={contactForm.email}
+                    onChange={handleContactChange}
+                    required
+                    disabled={contactLoading}
+                    className="w-full px-4 py-3 border border-blue-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all duration-300 hover:border-blue-300 bg-white disabled:bg-gray-50 disabled:cursor-not-allowed"
+                    placeholder="your.email@example.com"
+                  />
+                </div>
+              </div>
+              
+              <div>
+                <label htmlFor="subject" className="block text-sm font-medium text-blue-800 mb-2">
+                  Subject
+                </label>
+                <input
+                  type="text"
+                  id="subject"
+                  name="subject"
+                  value={contactForm.subject}
+                  onChange={handleContactChange}
+                  disabled={contactLoading}
+                  className="w-full px-4 py-3 border border-blue-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all duration-300 hover:border-blue-300 bg-white disabled:bg-gray-50 disabled:cursor-not-allowed"
+                  placeholder="What's this about?"
+                />
+              </div>
+              
+              <div>
+                <label htmlFor="message" className="block text-sm font-medium text-blue-800 mb-2">
+                  Message *
+                </label>
+                <textarea
+                  id="message"
+                  name="message"
+                  value={contactForm.message}
+                  onChange={handleContactChange}
+                  required
+                  disabled={contactLoading}
+                  rows={5}
+                  className="w-full px-4 py-3 border border-blue-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all duration-300 hover:border-blue-300 bg-white disabled:bg-gray-50 disabled:cursor-not-allowed resize-vertical"
+                  placeholder="Your message here..."
+                />
+              </div>
+
+              <button
+                type="submit"
+                disabled={contactLoading}
+                className={`w-full py-3 px-6 rounded-lg font-medium transition-all duration-300 transform hover:scale-105 hover:shadow-lg flex items-center justify-center ${
+                  contactLoading
+                    ? 'bg-gray-400 text-white cursor-not-allowed'
+                    : 'bg-blue-600 text-white hover:bg-blue-700'
+                }`}
+              >
+                {contactLoading ? (
+                  <>
+                    <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
+                    Sending...
+                  </>
+                ) : (
+                  <>Send Message ✉️</>
+                )}
+              </button>
+            </form>
+            
+            <div className="mt-6 p-4 bg-blue-50 rounded-lg border border-blue-200">
+              <p className="text-sm text-blue-800 flex items-center">
+                <span className="mr-2">⚡</span>
+                <strong>Powered by AWS Lambda</strong>
+              </p>
+              <p className="text-xs text-blue-600 mt-1">
+                Your message is processed serverlessly for maximum reliability.
+              </p>
+            </div>
+          </div>
+          
+          {/* Newsletter & Contact Info */}
           <div className="opacity-0 animate-slide-in-left stagger-2">
             <h3 className="text-xl font-medium text-blue-800 mb-6">
               Let's Connect
