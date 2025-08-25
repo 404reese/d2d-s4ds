@@ -27,7 +27,7 @@ const Header: React.FC<HeaderProps> = ({ activeSection }) => {
             onClick={() => scrollToSection('about')}
             className="text-xl font-semibold text-blue-900 hover:text-blue-600 transition-all duration-300 transform hover:scale-105"
           >
-            John Doe
+            Riddhesh
           </button>
           
           <div className="flex space-x-8">
