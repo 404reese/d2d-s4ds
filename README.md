@@ -1,6 +1,17 @@
-# Full-Stack Blog Application
+<h1 align="center" id="title">Development to Deployment</h1>
 
-A modern full-stack application with a React frontend and Flask backend, featuring blog management, newsletter functionality, and admin panel.
+<p align="center"><img src="https://socialify.git.ci/404reese/d2d-s4ds/image?custom_language=AWS&amp;language=1&amp;name=1&amp;owner=1&amp;theme=Light" alt="project-image"></p>
+
+<p id="description">DevOps Workshop that takes you through everything — from development to deployment — with real tools and a hands-on mini project!</p>
+
+<h2>Project Screenshots:</h2>
+
+<img src="https://raw.githubusercontent.com/404reese/d2d-s4ds/refs/heads/main/images/fehero.png" alt="project-screenshot" width="2000" height="400/">
+
+<img src="https://raw.githubusercontent.com/404reese/d2d-s4ds/refs/heads/main/images/be1.png" alt="project-screenshot" width="2000" height="400/">
+
+<img src="https://raw.githubusercontent.com/404reese/d2d-s4ds/refs/heads/main/images/be2.png" alt="project-screenshot" width="2000" height="400/">
+
 
 ## 🚀 Features
 
